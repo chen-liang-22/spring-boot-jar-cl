@@ -1,0 +1,32 @@
+server:
+  port: 8081
+  servlet:
+    encoding:
+      force: true
+      charset: utf-8
+      enabled: true
+  tomcat:
+    uri-encoding: utf-8
+
+spring:
+  profiles:
+    active: test
+#  mvc:
+#    view:
+#      prefix: /
+#      suffix: .jsp
+
+
+# 可以通过启用 debug=true属性；来让控制台打印自动配置报告==，这样我们就可以很方便的知道哪些自动配置类生效；
+#debug: true
+
+---
+server:
+  port: 8082
+spring:
+  profiles: dev
+---
+server:
+  port: 8083
+spring:
+  profiles: test

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 格式化输出：%date表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度 %msg：日志消息，%n是换行符-->
+    <property name="LOG_PATTERN" value="%date{HH:mm:ss.SSS} ============》》》 [%thread] %-5level %logger{36} - %msg%n"/>
+    <!-- 定义日志存储的路径，不要配置相对路径 -->
+    <property name="FILE_PATH" value="E:/logs/demo.%d{yyyy-MM-dd}.%i.log"/>
+
+    <!-- 控制台输出日志 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <!--            <encoder>-->
+        <!--                &lt;!&ndash; 按照上面配置的LOG_PATTERN来打印日志 &ndash;&gt;-->
+        <!--                <pattern>${LOG_PATTERN}</pattern>-->
+        <!--            </encoder>-->
+
+        <!--       日志输出格式：-->
+        <!--           %d表示日期时间，-->
+        <!--           %thread表示线程名，-->
+        <!--           %-5level：级别从左显示5个字符宽度-->
+        <!--           %logger{50} 表示logger名字最长50个字符，否则按照句点分割。-->
+        <!--           %msg：日志消息，-->
+        <!--           %n是换行符-->
+        <!--PatternLayou模式布局，添加此布局后输出模式中不用加<encoder>标签-->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <!--根据启动环境不同加载不同的配置-->
+            <springProfile name="dev">
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} --======>>>> [%thread] ---> %-5level %logger{50} - %msg%n
+                </pattern>
+            </springProfile>
+            <springProfile name="!dev">
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ==== [%thread] ==== %-5level %logger{50} - %msg%n</pattern>
+            </springProfile>
+        </layout>
+
+    </appender>
+
+
+    <!--每天生成一个日志文件，保存15天的日志文件。rollingFile是用来切分文件的 -->
+    <appender name="FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${FILE_PATH}</fileNamePattern>
+            <!-- keep 15 days' worth of history -->
+            <maxHistory>15</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- 日志文件的最大大小 -->
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <springProfile name="dev">
+            <encoder>
+                <pattern>${LOG_PATTERN}</pattern>
+            </encoder>
+        </springProfile>
+        <springProfile name="!dev">
+            <encoder>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ==-----------== [%thread] ==--------== %-5level %logger{50} -
+                    %msg%n
+                </pattern>
+            </encoder>
+        </springProfile>
+
+    </appender>
+    <!-- project default level -->
+    <logger name="src" level="INFO"/>
+
+    <!-- 日志输出级别 常用的日志级别按照从高到低依次为：ERROR、WARN、INFO、DEBUG。 -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>
+
+
+        <!--    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">-->
+        <!--        &lt;!&ndash;-->
+        <!--        日志输出格式：-->
+        <!--            %d表示日期时间，-->
+        <!--            %thread表示线程名，-->
+        <!--            %-5level：级别从左显示5个字符宽度-->
+        <!--            %logger{50} 表示logger名字最长50个字符，否则按照句点分割。-->
+        <!--            %msg：日志消息，-->
+        <!--            %n是换行符-->
+        <!--        &ndash;&gt;-->
+        <!--        <layout class="ch.qos.logback.classic.PatternLayout">-->
+        <!--            <springProfile name="dev">-->
+        <!--                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} &#45;&#45;&ndash;&gt; [%thread] -&ndash;&gt; %-5level %logger{50} - %msg%n</pattern>-->
+        <!--            </springProfile>-->
+        <!--            <springProfile name="!dev">-->
+        <!--                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ==== [%thread] ==== %-5level %logger{50} - %msg%n</pattern>-->
+        <!--            </springProfile>-->
+        <!--        </layout>-->
+        <!--    </appender>-->
+
