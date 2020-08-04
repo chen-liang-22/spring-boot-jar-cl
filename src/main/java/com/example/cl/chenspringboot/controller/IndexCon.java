@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class IndexCon {
 
-    @RequestMapping("/index")
+    @RequestMapping("/indexa")
     public String index(){
         return "index";
     }
