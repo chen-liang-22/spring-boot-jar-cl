@@ -1,5 +1,6 @@
 package com.example.cl.chenspringboot;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Conditional;
 *程序启动扫描加载主程序类所在的包以及下面所有子包的组件
 * */
 @SpringBootApplication
+@MapperScan("com.example.cl.chenspringboot.dao")
 public class ChenSpringBootApplication {
 
     public static void main(String[] args) {

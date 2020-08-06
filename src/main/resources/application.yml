@@ -11,6 +11,11 @@ server:
 spring:
   profiles:
     active: test
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: 123456
+    url: jdbc:mysql://localhost:3306/chendb?characterEncoding=utf-8&serverTimezone=UTC
+    username: root
 #  mvc:
 #    view:
 #      prefix: /
@@ -19,6 +24,11 @@ spring:
 
 # 可以通过启用 debug=true属性；来让控制台打印自动配置报告==，这样我们就可以很方便的知道哪些自动配置类生效；
 #debug: true
+
+mybatis:
+  config-location: classpath:mybatis/mybatis.cfg.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.example.cl.chenspringboot.bean
 
 ---
 server:
