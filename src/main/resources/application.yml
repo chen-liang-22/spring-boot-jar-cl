@@ -11,6 +11,7 @@ server:
 spring:
   profiles:
     active: test
+    include: kafka
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: 123456
