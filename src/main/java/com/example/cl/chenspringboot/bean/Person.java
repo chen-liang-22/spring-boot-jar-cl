@@ -70,4 +70,17 @@ public class Person {
     }
 
     private String createTime;
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", zone='" + zone + '\'' +
+                ", email='" + email + '\'' +
+                ", sex='" + sex + '\'' +
+                ", phone='" + phone + '\'' +
+                ", createTime='" + createTime + '\'' +
+                '}';
+    }
 }
