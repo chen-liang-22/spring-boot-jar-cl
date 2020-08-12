@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.cl.chenspringboot.dao.LoginMapper">
+
+
+    <select id="byUserDetail" resultType="java.util.Map">
+        select * from User join Role_User on User.id = Role_User.User_ID join Role on Role_User.Role_id = Role.id
+        join Role_Permissions on Role.id = Role_Permissions.Role_id join Permissions on Permissions.id =
+        Role_Permissions.Permissions_ID
+        <where>
+            <if test="id != null">
+                User.id = #{id,,jdbcType=VARCHAR}
+            </if>
+            <if test="userName != null">
+                User.userName = #{userName,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

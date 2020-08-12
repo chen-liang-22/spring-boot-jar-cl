@@ -14,6 +14,9 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @Author cl
  * @Date 2020/8/3 16:29
@@ -33,14 +36,13 @@ public class CustomRealm extends AuthorizingRealm {
         }
         //获取用户信息
         String name = authenticationToken.getPrincipal().toString();
-        User user = loginService.getUserByName(name);
-        if (user == null) {
+        List<Map<String, Object>> userByName = loginService.getUserByName(name);
+        if (userByName == null || userByName.size() == 0) {
             //这里返回后会报出对应异常
             return null;
         } else {
             //这里验证authenticationToken和simpleAuthenticationInfo的信息
-            String name1 = getName();
-            SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(name, user.getPassword().toString(), getName());
+            SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(name, userByName.get(0).get("password"), getName());
             return simpleAuthenticationInfo;
         }
     }
@@ -51,16 +53,15 @@ public class CustomRealm extends AuthorizingRealm {
         //获取登录用户名
         String name = (String) principalCollection.getPrimaryPrincipal();
         //根据用户名去数据库查询用户信息
-        User user = loginService.getUserByName(name);
+        List<Map<String, Object>> userByName = loginService.getUserByName(name);
         //添加角色和权限（根据用户获取所有权限并返回）
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        for (Role role : user.getRoles()) {
+        for (Map<String, Object> map : userByName) {
             //添加角色
-            simpleAuthorizationInfo.addRole(role.getRoleName());
+            simpleAuthorizationInfo.addRole((String) map.get("roleName"));
             //添加权限
-            for (Permissions permissions : role.getPermissions()) {
-                simpleAuthorizationInfo.addStringPermission(permissions.getPermissionsName());
-            }
+            simpleAuthorizationInfo.addStringPermission((String) map.get("permissionsName"));
+
         }
         return simpleAuthorizationInfo;
     }

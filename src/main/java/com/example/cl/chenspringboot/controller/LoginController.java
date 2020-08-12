@@ -32,7 +32,7 @@ public class LoginController {
         try {
             //进行验证，这里可以捕获异常，然后返回对应信息
             subject.login(usernamePasswordToken);
-            /*权限查询*/
+//            /*权限查询*/
             boolean bl = subject.hasRole("admin");
             if(!bl){
                 return "没有admin角色";
